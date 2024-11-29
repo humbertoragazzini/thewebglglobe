@@ -20,6 +20,12 @@ const scene = new THREE.Scene();
 const textureLoader = new THREE.TextureLoader();
 
 /**
+ *
+ * Sun
+ */
+const sunSpherical = new THREE.Spherical(1, Math.PI * 0.5, 0.5);
+
+/**
  * Earth
  */
 
