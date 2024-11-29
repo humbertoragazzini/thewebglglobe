@@ -15,22 +15,19 @@ void main()
     // Sun Orentation
     vec3 uSunDirection = vec3(0.0,0.0,1.0);
     float uSunOrientation = dot(uSunDirection,normal);
-    color = vec3(uSunOrientation);
 
-    // // Picking up the pixels of the texture
+    // Mixers
+    float dayMix = smoothstep(-0.2,0.5,uSunOrientation);
+
+    // Picking up the pixels of the texture
     vec3 dayColor = texture(uDayTexture,vUv).xyz;
     vec3 nightColor = texture(uNightTexture,vUv).xyz;
 
-    // We mix the colors depending on a direction
-    // vec3 mixedTextures = dot(dayColor)
-    float mixedTexturesNight = dot(nightColor,color);
-    float mixedTexturesDay = -dot(dayColor,color);
-    nightColor *= vec3(mixedTexturesNight);
-    dayColor *= vec3(mixedTexturesDay);
-    vec3 final = nightColor + dayColor;
+    // Mixing color
+    color = mix(nightColor,dayColor,dayMix);
     
     // Final color
-    gl_FragColor = vec4(final, 1.0);
+    gl_FragColor = vec4(color, 1.0);
     #include <tonemapping_fragment>
     #include <colorspace_fragment>
 }
