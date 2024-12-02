@@ -45,13 +45,15 @@ earthParameters.atmosphereTwilightColor = "#ff6600";
 
 gui.addColor(earthParameters, "atmosphereDayColor").onChange(() => {
   console.log(earthMaterial.uniforms.uAtmosphereDayColor);
-  earthMaterial.uniforms.uAtmosphereDayColor.value =
-    earthParameters.atmosphereDayColor;
+  earthMaterial.uniforms.uAtmosphereDayColor.value = new THREE.Color(
+    earthParameters.atmosphereDayColor
+  );
 });
 gui.addColor(earthParameters, "atmosphereTwilightColor").onChange(() => {
   console.log(earthMaterial.uniforms.uAtmosphereTwilightColor);
-  earthMaterial.uniforms.uAtmosphereTwilightColor.value =
-    earthParameters.atmosphereTwilightColor;
+  earthMaterial.uniforms.uAtmosphereTwilightColor.value = new THREE.Color(
+    earthParameters.atmosphereTwilightColor
+  );
 });
 
 // Loading textures
@@ -76,9 +78,11 @@ const earthMaterial = new THREE.ShaderMaterial({
     uNightTexture: new THREE.Uniform(earthnightTexture),
     uSpecularCloudsTexture: new THREE.Uniform(specularCloudsTexture),
     uSunDirection: new THREE.Uniform(sunDirection),
-    uAtmosphereDayColor: new THREE.Uniform(earthParameters.atmosphereDayColor),
+    uAtmosphereDayColor: new THREE.Uniform(
+      new THREE.Color(earthParameters.atmosphereDayColor)
+    ),
     uAtmosphereTwilightColor: new THREE.Uniform(
-      earthParameters.atmosphereTwilightColor
+      new THREE.Color(earthParameters.atmosphereTwilightColor)
     ),
   },
 });

@@ -2,7 +2,8 @@ uniform sampler2D uDayTexture;
 uniform sampler2D uNightTexture;
 uniform sampler2D uSpecularCloudsTexture;
 uniform vec3 uSunDirection;
-
+uniform vec3 uAtmosphereDayColor;
+uniform vec3 uAtmosphereTwilightColor;
 varying vec2 vUv;
 varying vec3 vNormal;
 varying vec3 vPosition;
@@ -14,10 +15,13 @@ void main()
     vec3 color = vec3(0.0);
 
     // Sun Orentation
-    float uSunOrientation = dot(uSunDirection,normal);
+    float sunOrientation = dot(uSunDirection,normal);
 
     // Mixers
-    float dayMix = smoothstep(-0.2,0.5,uSunOrientation);
+    float dayMix = smoothstep(-0.2,0.5,sunOrientation);
+
+    // frenel 
+    float frenel = dot(viewDirection,normal) + 1.0;
 
     // Picking up the pixels of the texture
     vec3 dayColor = texture(uDayTexture,vUv).xyz;
@@ -36,6 +40,12 @@ void main()
 
     // mixing the color with the clouds
     color = mix(color,vec3(1.0),cloudsMix);
+
+    // Atmospohere
+    float atmosphereDayMix = smoothstep(-0.5, 1.0, sunOrientation);
+    vec3 atmosphereColor = mix(uAtmosphereTwilightColor,uAtmosphereDayColor,atmosphereDayMix);
+    atmosphereColor *= vec3(frenel);
+    color = atmosphereColor;
     
     // Final color
     gl_FragColor = vec4(color, 1.0);
