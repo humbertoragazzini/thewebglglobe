@@ -38,6 +38,22 @@ scene.add(debugSun);
  * Earth
  */
 
+// colors for atmosphere
+const earthParameters = {};
+earthParameters.atmosphereDayColor = "#00aaff";
+earthParameters.atmosphereTwilightColor = "#ff6600";
+
+gui.addColor(earthParameters, "atmosphereDayColor").onChange(() => {
+  console.log(earthMaterial.uniforms.uAtmosphereDayColor);
+  earthMaterial.uniforms.uAtmosphereDayColor.value =
+    earthParameters.atmosphereDayColor;
+});
+gui.addColor(earthParameters, "atmosphereTwilightColor").onChange(() => {
+  console.log(earthMaterial.uniforms.uAtmosphereTwilightColor);
+  earthMaterial.uniforms.uAtmosphereTwilightColor.value =
+    earthParameters.atmosphereTwilightColor;
+});
+
 // Loading textures
 const earthDayTexture = textureLoader.load("./earth/day.jpg");
 earthDayTexture.colorSpace = THREE.SRGBColorSpace;
@@ -60,6 +76,10 @@ const earthMaterial = new THREE.ShaderMaterial({
     uNightTexture: new THREE.Uniform(earthnightTexture),
     uSpecularCloudsTexture: new THREE.Uniform(specularCloudsTexture),
     uSunDirection: new THREE.Uniform(sunDirection),
+    uAtmosphereDayColor: new THREE.Uniform(earthParameters.atmosphereDayColor),
+    uAtmosphereTwilightColor: new THREE.Uniform(
+      earthParameters.atmosphereTwilightColor
+    ),
   },
 });
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
