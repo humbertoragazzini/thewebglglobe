@@ -22,6 +22,7 @@ void main()
 
     // frenel 
     float frenel = dot(viewDirection,normal) + 1.0;
+    frenel = pow(frenel, 2.3);
 
     // Picking up the pixels of the texture
     vec3 dayColor = texture(uDayTexture,vUv).xyz;
@@ -44,8 +45,7 @@ void main()
     // Atmospohere
     float atmosphereDayMix = smoothstep(-0.5, 1.0, sunOrientation);
     vec3 atmosphereColor = mix(uAtmosphereTwilightColor,uAtmosphereDayColor,atmosphereDayMix);
-    atmosphereColor *= vec3(frenel);
-    color = atmosphereColor;
+    color = mix(color,atmosphereColor,frenel * atmosphereDayMix);
     
     // Final color
     gl_FragColor = vec4(color, 1.0);
