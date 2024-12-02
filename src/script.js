@@ -42,12 +42,13 @@ scene.add(debugSun);
 const earthDayTexture = textureLoader.load("./earth/day.jpg");
 earthDayTexture.colorSpace = THREE.SRGBColorSpace;
 earthDayTexture.anisotropy = 16;
+
 const earthnightTexture = textureLoader.load("./earth/night.jpg");
 earthnightTexture.anisotropy = 16;
 earthnightTexture.colorSpace = THREE.SRGBColorSpace;
-earthnightTexture.anisotropy = 16;
 
 const specularCloudsTexture = textureLoader.load("./earth/specularClouds.jpg");
+specularCloudsTexture.anisotropy = 16;
 
 // Mesh
 const earthGeometry = new THREE.SphereGeometry(2, 64, 64);

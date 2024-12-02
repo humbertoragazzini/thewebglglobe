@@ -25,6 +25,17 @@ void main()
 
     // Mixing color
     color = mix(nightColor,dayColor,dayMix);
+
+    // Specular clouds 
+    vec2 specularCloudsColor = texture(uSpecularCloudsTexture, vUv).xy;
+    
+    // Clouds
+    float cloudsMix = smoothstep(0.5,1.0,specularCloudsColor.g);
+    cloudsMix *= dayMix;
+
+
+    // mixing the color with the clouds
+    color = mix(color,vec3(1.0),cloudsMix);
     
     // Final color
     gl_FragColor = vec4(color, 1.0);
