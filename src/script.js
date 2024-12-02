@@ -34,17 +34,6 @@ const debugSun = new THREE.Mesh(
 
 scene.add(debugSun);
 
-// Update the sunPosition
-const updateSun = () => {
-  //Sun direction
-  sunDirection.setFromSpherical(sunSpherical);
-
-  // debug
-  debugSun.position.copy(sunDirection).multiplyScalar(5);
-};
-
-updateSun();
-
 /**
  * Earth
  */
@@ -65,10 +54,30 @@ const earthMaterial = new THREE.ShaderMaterial({
     uDayTexture: new THREE.Uniform(earthDayTexture),
     uNightTexture: new THREE.Uniform(earthnightTexture),
     uSpecularCloudsTexture: new THREE.Uniform(specularCloudsTexture),
+    uSunDirection: new THREE.Vector3(0, 0, 1),
   },
 });
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earth);
+
+// Update the sunPosition
+const updateSun = () => {
+  //Sun direction
+  sunDirection.setFromSpherical(sunSpherical);
+
+  // debug
+  debugSun.position.copy(sunDirection).multiplyScalar(5);
+
+  //uniform
+  console.log(earthMaterial.uniforms.uSunDirection);
+  earthMaterial.uniforms.uSunDirection.copy(sunDirection);
+};
+
+// Tweak Sun
+gui.add(sunSpherical, "phi").min(0).max(Math.PI).onChange(updateSun);
+gui.add(sunSpherical, "theta").min(0).max(Math.PI).onChange(updateSun);
+
+// updateSun();
 
 /**
  * Sizes
