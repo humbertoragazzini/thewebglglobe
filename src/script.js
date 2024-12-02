@@ -50,12 +50,17 @@ gui.addColor(earthParameters, "atmosphereDayColor").onChange(() => {
   earthMaterial.uniforms.uAtmosphereDayColor.value = new THREE.Color(
     earthParameters.atmosphereDayColor
   );
+  earthVolumetricMaterial.uniforms.uAtmosphereDayColor.value = new THREE.Color(
+    earthParameters.atmosphereDayColor
+  );
 });
 gui.addColor(earthParameters, "atmosphereTwilightColor").onChange(() => {
   console.log(earthMaterial.uniforms.uAtmosphereTwilightColor);
   earthMaterial.uniforms.uAtmosphereTwilightColor.value = new THREE.Color(
     earthParameters.atmosphereTwilightColor
   );
+  earthVolumetricMaterial.uniforms.uAtmosphereTwilightColor.value =
+    new THREE.Color(earthParameters.atmosphereTwilightColor);
 });
 
 // Loading textures
@@ -121,6 +126,8 @@ const updateSun = () => {
   debugSun.position.copy(sunDirection).multiplyScalar(5);
   //uniform
   earthMaterial.uniforms.uSunDirection.value.copy(sunDirection);
+  //uniform
+  earthVolumetricMaterial.uniforms.uSunDirection.value.copy(sunDirection);
 };
 
 // Tweak Sun
