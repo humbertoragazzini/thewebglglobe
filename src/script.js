@@ -41,8 +41,12 @@ scene.add(debugSun);
 // Loading textures
 const earthDayTexture = textureLoader.load("./earth/day.jpg");
 earthDayTexture.colorSpace = THREE.SRGBColorSpace;
+earthDayTexture.anisotropy = 16;
 const earthnightTexture = textureLoader.load("./earth/night.jpg");
+earthnightTexture.anisotropy = 16;
 earthnightTexture.colorSpace = THREE.SRGBColorSpace;
+earthnightTexture.anisotropy = 16;
+
 const specularCloudsTexture = textureLoader.load("./earth/specularClouds.jpg");
 
 // Mesh
@@ -54,7 +58,7 @@ const earthMaterial = new THREE.ShaderMaterial({
     uDayTexture: new THREE.Uniform(earthDayTexture),
     uNightTexture: new THREE.Uniform(earthnightTexture),
     uSpecularCloudsTexture: new THREE.Uniform(specularCloudsTexture),
-    uSunDirection: new THREE.Vector3(0, 0, 1),
+    uSunDirection: new THREE.Uniform(sunDirection),
   },
 });
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
@@ -64,20 +68,25 @@ scene.add(earth);
 const updateSun = () => {
   //Sun direction
   sunDirection.setFromSpherical(sunSpherical);
-
   // debug
   debugSun.position.copy(sunDirection).multiplyScalar(5);
-
   //uniform
-  console.log(earthMaterial.uniforms.uSunDirection);
-  earthMaterial.uniforms.uSunDirection.copy(sunDirection);
+  earthMaterial.uniforms.uSunDirection.value.copy(sunDirection);
 };
 
 // Tweak Sun
-gui.add(sunSpherical, "phi").min(0).max(Math.PI).onChange(updateSun);
-gui.add(sunSpherical, "theta").min(0).max(Math.PI).onChange(updateSun);
+gui
+  .add(sunSpherical, "phi")
+  .min(0)
+  .max(Math.PI * 2)
+  .onChange(updateSun);
+gui
+  .add(sunSpherical, "theta")
+  .min(0)
+  .max(Math.PI * 2)
+  .onChange(updateSun);
 
-// updateSun();
+updateSun();
 
 /**
  * Sizes
@@ -132,6 +141,9 @@ const renderer = new THREE.WebGLRenderer({
 renderer.setSize(sizes.width, sizes.height);
 renderer.setPixelRatio(sizes.pixelRatio);
 renderer.setClearColor("#000011");
+
+// Check anisotropic filter
+console.log(renderer.capabilities.getMaxAnisotropy());
 
 /**
  * Animate
