@@ -24,6 +24,26 @@ const textureLoader = new THREE.TextureLoader();
  * Sun
  */
 const sunSpherical = new THREE.Spherical(1, Math.PI * 0.5, 0.5);
+const sunDirection = new THREE.Vector3();
+
+// Debug
+const debugSun = new THREE.Mesh(
+  new THREE.IcosahedronGeometry(0.1, 2),
+  new THREE.MeshBasicMaterial()
+);
+
+scene.add(debugSun);
+
+// Update the sunPosition
+const updateSun = () => {
+  //Sun direction
+  sunDirection.setFromSpherical(sunSpherical);
+
+  // debug
+  debugSun.position.copy(sunDirection).multiplyScalar(5);
+};
+
+updateSun();
 
 /**
  * Earth
