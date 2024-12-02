@@ -13,9 +13,6 @@ void main()
     // Sun Orentation
     float sunOrientation = dot(uSunDirection,normal);
 
-    // mixing the color with the clouds
-    color = mix(color,vec3(1.0),cloudsMix);
-    
     // Atmospohere
     float atmosphereDayMix = smoothstep(-0.5, 1.0, sunOrientation);
     vec3 atmosphereColor = mix(uAtmosphereTwilightColor,uAtmosphereDayColor,atmosphereDayMix);

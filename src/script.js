@@ -3,6 +3,8 @@ import { OrbitControls } from "three/addons/controls/OrbitControls.js";
 import GUI from "lil-gui";
 import earthVertexShader from "./shaders/earth/vertex.glsl";
 import earthFragmentShader from "./shaders/earth/fragment.glsl";
+import volumetricAtmosphereVertexShader from "./shaders/volumetricAtmos/vertex.glsl";
+import volumetricAtmosphereFragmentShader from "./shaders/volumetricAtmos/fragment.glsl";
 
 /**
  * Base
@@ -91,8 +93,19 @@ scene.add(earth);
 
 // Atmos volumetric material
 const earthVolumetricMaterial = new THREE.ShaderMaterial({
+  vertexShader: volumetricAtmosphereVertexShader,
+  fragmentShader: volumetricAtmosphereFragmentShader,
   side: THREE.BackSide,
   transparent: true,
+  uniforms: {
+    uSunDirection: new THREE.Uniform(sunDirection),
+    uAtmosphereDayColor: new THREE.Uniform(
+      new THREE.Color(earthParameters.atmosphereDayColor)
+    ),
+    uAtmosphereTwilightColor: new THREE.Uniform(
+      new THREE.Color(earthParameters.atmosphereTwilightColor)
+    ),
+  },
 });
 
 // Volumetric atmos mesh
