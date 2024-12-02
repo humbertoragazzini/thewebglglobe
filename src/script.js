@@ -89,6 +89,17 @@ const earthMaterial = new THREE.ShaderMaterial({
 const earth = new THREE.Mesh(earthGeometry, earthMaterial);
 scene.add(earth);
 
+// Atmos volumetric material
+const earthVolumetricMaterial = new THREE.ShaderMaterial({
+  side: THREE.BackSide,
+  transparent: true,
+});
+
+// Volumetric atmos mesh
+const earthVolumetric = new THREE.Mesh(earthGeometry, earthVolumetricMaterial);
+earthVolumetric.scale.set(1.04, 1.04, 1.04);
+scene.add(earthVolumetric);
+
 // Update the sunPosition
 const updateSun = () => {
   //Sun direction
